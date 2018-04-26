@@ -6,8 +6,9 @@ class VizdoomTest(gym.Env):
     metadata = {'render.modes': ['human']}
 
     def __init__(self):
-        print("Hello World!")
-        pass
+        self.action_space = spaces.Discrete(4)
+        self.observation_space = spaces.Box(0, 255, (300, 200, 3))
+        self.reward_range = (0, 1)
 
     def step(self, action):
         pass
