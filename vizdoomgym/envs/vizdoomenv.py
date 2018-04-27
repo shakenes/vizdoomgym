@@ -15,7 +15,6 @@ CONFIGS = [['basic.cfg', 3],                # 0
 
 
 class VizdoomEnv(gym.Env):
-    metadata = {'render.modes': ['human']}
 
     def __init__(self, level):
 
@@ -58,5 +57,5 @@ class VizdoomEnv(gym.Env):
         img = self.state.screen_buffer
         return np.transpose(img, (1, 2, 0))
 
-    def render(self, mode='human', close=False):
+    def render(self, mode='human'):
         pass
