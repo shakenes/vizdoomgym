@@ -4,14 +4,14 @@ from vizdoom import *
 import numpy as np
 import os
 
-CONFIGS = ['basic.cfg',
-           'deadly_corridor.cfg',
-           'defend_the_center.cfg',
-           'defend_the_line.cfg',
-           'health_gathering.cfg',
-           'my_way_home.cfg',
-           'predict_position.cfg',
-           'take_cover']
+CONFIGS = ['basic.cfg',             # 0
+           'deadly_corridor.cfg',   # 1
+           'defend_the_center.cfg', # 2
+           'defend_the_line.cfg',   # 3
+           'health_gathering.cfg',  # 4
+           'my_way_home.cfg',       # 5
+           'predict_position.cfg',  # 6
+           'take_cover']            # 7
 
 
 class VizdoomEnv(gym.Env):
