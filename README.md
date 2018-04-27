@@ -8,11 +8,11 @@ cd vizdoomgym
 pip install -e .
 ```
 
-Use the test environment:
+Use one of the environments (see list below for all available envs):
 ```
 import gym
 import vizdoomgym
-env = gym.make('VizdoomTest-v0')
+env = gym.make('VizdoomBasic-v0')
 ```
 
 Available environments (for information about the environments take a look at https://github.com/simontudo/vizdoomgym/blob/master/vizdoomgym/envs/scenarios/README.md)
