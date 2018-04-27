@@ -11,7 +11,7 @@ CONFIGS = ['basic.cfg',             # 0
            'health_gathering.cfg',  # 4
            'my_way_home.cfg',       # 5
            'predict_position.cfg',  # 6
-           'take_cover']            # 7
+           'take_cover.cfg']        # 7
 
 
 class VizdoomEnv(gym.Env):
