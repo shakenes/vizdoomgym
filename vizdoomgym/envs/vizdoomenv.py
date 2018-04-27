@@ -4,11 +4,20 @@ from vizdoom import *
 import numpy as np
 import os
 
+CONFIGS = ['basic.cfg',
+           'deadly_corridor.cfg',
+           'defend_the_center.cfg',
+           'defend_the_line.cfg',
+           'health_gathering.cfg',
+           'my_way_home.cfg',
+           'predict_position.cfg',
+           'take_cover']
 
-class VizdoomTest(gym.Env):
+
+class VizdoomEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
-    def __init__(self):
+    def __init__(self, level):
         self.action_space = spaces.Discrete(3)
         self.observation_space = spaces.Box(0, 255, (240, 320, 3))
         self.reward_range = (0, 1)
@@ -17,7 +26,7 @@ class VizdoomTest(gym.Env):
         self.game = DoomGame()
         self.game.set_screen_resolution(ScreenResolution.RES_640X480)
         scenarios_dir = os.path.join(os.path.dirname(__file__), 'scenarios')
-        self.game.load_config(os.path.join(scenarios_dir, 'basic.cfg'))
+        self.game.load_config(os.path.join(scenarios_dir, CONFIGS[level]))
         self.game.init()
         self.state = None
 
