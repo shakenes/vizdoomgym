@@ -18,9 +18,6 @@ class VizdoomEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
     def __init__(self, level):
-        self.action_space = spaces.Discrete(CONFIGS[level][1])
-        self.observation_space = spaces.Box(0, 255, (240, 320, 3))
-        self.reward_range = (0, 1)
 
         # init game
         self.game = DoomGame()
@@ -29,6 +26,11 @@ class VizdoomEnv(gym.Env):
         self.game.load_config(os.path.join(scenarios_dir, CONFIGS[level][0]))
         self.game.init()
         self.state = None
+
+        self.action_space = spaces.Discrete(CONFIGS[level][1])
+        self.observation_space = spaces.Box(0, 255, (self.game.get_screen_height(),
+                                                     self.game.get_screen_width(),
+                                                     self.game.get_screen_channels()))
 
     def step(self, action):
         # convert action to vizdoom action space (one hot)
