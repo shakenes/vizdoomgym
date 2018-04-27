@@ -4,21 +4,21 @@ from vizdoom import *
 import numpy as np
 import os
 
-CONFIGS = ['basic.cfg',             # 0
-           'deadly_corridor.cfg',   # 1
-           'defend_the_center.cfg', # 2
-           'defend_the_line.cfg',   # 3
-           'health_gathering.cfg',  # 4
-           'my_way_home.cfg',       # 5
-           'predict_position.cfg',  # 6
-           'take_cover.cfg']        # 7
+CONFIGS = [['basic.cfg', 3],                # 0
+           ['deadly_corridor.cfg', 7],      # 1
+           ['defend_the_center.cfg', 3],    # 2
+           ['defend_the_line.cfg', 3],      # 3
+           ['health_gathering.cfg', 3],     # 4
+           ['my_way_home.cfg', 5],          # 5
+           ['predict_position.cfg', 3],     # 6
+           ['take_cover.cfg', 2]]           # 7
 
 
 class VizdoomEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
     def __init__(self, level):
-        self.action_space = spaces.Discrete(3)
+        self.action_space = spaces.Discrete(CONFIGS[level][1])
         self.observation_space = spaces.Box(0, 255, (240, 320, 3))
         self.reward_range = (0, 1)
 
@@ -26,7 +26,7 @@ class VizdoomEnv(gym.Env):
         self.game = DoomGame()
         self.game.set_screen_resolution(ScreenResolution.RES_640X480)
         scenarios_dir = os.path.join(os.path.dirname(__file__), 'scenarios')
-        self.game.load_config(os.path.join(scenarios_dir, CONFIGS[level]))
+        self.game.load_config(os.path.join(scenarios_dir, CONFIGS[level][0]))
         self.game.init()
         self.state = None
 
