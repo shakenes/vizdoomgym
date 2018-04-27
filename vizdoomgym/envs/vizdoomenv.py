@@ -24,6 +24,7 @@ class VizdoomEnv(gym.Env):
         self.game.set_screen_resolution(ScreenResolution.RES_640X480)
         scenarios_dir = os.path.join(os.path.dirname(__file__), 'scenarios')
         self.game.load_config(os.path.join(scenarios_dir, CONFIGS[level][0]))
+        self.game.set_window_visible(False)
         self.game.init()
         self.state = None
 
