@@ -31,12 +31,11 @@ class VizdoomEnv(gym.Env):
         self.state = None
 
     def step(self, action):
-        if action == 0:
-            act = [0, 0, 1]
-        elif action == 1:
-            act = [1, 0, 0]
-        else:
-            act = [0, 1, 0]
+        # convert action to vizdoom action space (one hot)
+        act = np.zeros(self.action_space.n)
+        act[action] = 1
+        act = np.uint8(act)
+        act = act.tolist()
 
         reward = self.game.make_action(act)
         state = self.game.get_state()
