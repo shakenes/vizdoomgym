@@ -8,7 +8,9 @@ cd vizdoomgym
 pip install -e .
 ```
 
-Name of test environment: 
+Use the test environment:
 ```
-VizdoomTest-v0
+import gym
+import vizdoomgym
+env = gym.make('VizdoomTest-v0')
 ```
