@@ -39,13 +39,17 @@ class VizdoomEnv(gym.Env):
         act = np.uint8(act)
         act = act.tolist()
 
-        reward = self.game.make_action(act)
-        state = self.game.get_state()
-        done = self.game.is_episode_finished()
-        if not done:
-            observation = np.transpose(state.screen_buffer, (1, 2, 0))
-        else:
-            observation = np.uint8(np.zeros(self.observation_space.shape))
+        frameskip = 4
+        reward = 0
+        for k in range(0, frameskip):
+            reward += self.game.make_action(act)
+            state = self.game.get_state()
+            done = self.game.is_episode_finished()
+            if not done:
+                observation = np.transpose(state.screen_buffer, (1, 2, 0))
+            else:
+                observation = np.uint8(np.zeros(self.observation_space.shape))
+                break
 
         info = {'dummy': 0}
 
