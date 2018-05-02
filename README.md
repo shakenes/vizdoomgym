@@ -1,4 +1,5 @@
 # vizdoomgym
+This is a wrapper to use [ViZDoom](https://github.com/mwydmuch/ViZDoom "ViZDoom repository") together with [OpenAI Gym](https://github.com/openai/gym "OpenAI Gym repository"). 
 
 ## Installation
 
