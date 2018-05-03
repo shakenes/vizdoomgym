@@ -39,7 +39,7 @@ class VizdoomEnv(gym.Env):
         act = np.uint8(act)
         act = act.tolist()
 
-        frameskip = 4
+        frameskip = 2
         reward = 0
         for k in range(0, frameskip):
             reward += self.game.make_action(act)
