@@ -16,7 +16,7 @@ import vizdoomgym
 env = gym.make('VizdoomBasic-v0')
 ```
 
-Available environments (for information about the environments take a look at https://github.com/simontudo/vizdoomgym/blob/master/vizdoomgym/envs/scenarios/README.md)
+List of available environments:
 ```
 VizdoomBasic-v0
 VizdoomCorridor-v0
@@ -27,3 +27,5 @@ VizdoomMyWayHome-v0
 VizdoomPredictPosition-v0
 VizdoomTakeCover-v0
 ```
+
+[Detailed information about the environments](https://github.com/simontudo/vizdoomgym/blob/master/vizdoomgym/envs/scenarios/README.md)
