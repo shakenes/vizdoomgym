@@ -7,3 +7,5 @@ from vizdoomgym.envs.vizdoomhealthgathering import VizdoomHealthGathering
 from vizdoomgym.envs.vizdoommywayhome import VizdoomMyWayHome
 from vizdoomgym.envs.vizdoompredictposition import VizdoomPredictPosition
 from vizdoomgym.envs.vizdoomtakecover import VizdoomTakeCover
+from vizdoomgym.envs.vizdoomdeathmatch import VizdoomDeathmatch
+from vizdoomgym.envs.vizdoomhealthgatheringsupreme import VizdoomHealthGatheringSupreme

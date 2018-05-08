@@ -11,7 +11,9 @@ CONFIGS = [['basic.cfg', 3],                # 0
            ['health_gathering.cfg', 3],     # 4
            ['my_way_home.cfg', 5],          # 5
            ['predict_position.cfg', 3],     # 6
-           ['take_cover.cfg', 2]]           # 7
+           ['take_cover.cfg', 2],           # 7
+           ['deathmatch.cfg', 20],          # 8
+           ['health_gathering_supreme.cfg', 3]]  # 9
 
 
 class VizdoomEnv(gym.Env):

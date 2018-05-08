@@ -39,3 +39,13 @@ register(
     id='VizdoomTakeCover-v0',
     entry_point='vizdoomgym.envs:VizdoomTakeCover'
 )
+
+register(
+    id='VizdoomDeathmatch-v0',
+    entry_point='vizdoomgym.envs:VizdoomDeathmatch'
+)
+
+register(
+    id='VizdoomHealthGatheringSupreme-v0',
+    entry_point='vizdoomgym.envs:VizdoomHealthGatheringSupreme'
+)
