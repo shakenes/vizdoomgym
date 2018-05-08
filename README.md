@@ -26,6 +26,8 @@ VizdoomHealthGathering-v0
 VizdoomMyWayHome-v0
 VizdoomPredictPosition-v0
 VizdoomTakeCover-v0
+VizdoomDeathmatch-v0
+VizdoomHealthGatheringSupreme-v0
 ```
 
 [Detailed information about the environments](https://github.com/simontudo/vizdoomgym/blob/master/vizdoomgym/envs/scenarios/README.md)
