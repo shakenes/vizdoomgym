@@ -62,7 +62,8 @@ class VizdoomEnv(gym.Env):
     def render(self, mode='human'):
         pass
 
-    def get_keys_to_action(self):
+    @staticmethod
+    def get_keys_to_action():
         keys = {(): 2,
                 (ord('a'),): 0,
                 (ord('d'),): 1,
