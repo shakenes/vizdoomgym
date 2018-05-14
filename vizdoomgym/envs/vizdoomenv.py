@@ -64,6 +64,7 @@ class VizdoomEnv(gym.Env):
 
     @staticmethod
     def get_keys_to_action():
+        # you can press only one key at a time!
         keys = {(): 2,
                 (ord('a'),): 0,
                 (ord('d'),): 1,
