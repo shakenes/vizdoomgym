@@ -7,7 +7,7 @@ Note: Vizdoom does not support setting certain rewards (such as killing oponents
 
 ## BASIC
 The purpose of the scenario is just to check if using this
-framework to train some AI i 3D environment is feasible.
+framework to train some AI in 3D environment is feasible.
 
 Map is a rectangle with gray walls, ceiling and floor.
 Player is spawned along the longer wall, in the center.
