@@ -32,7 +32,8 @@ class VizdoomEnv(gym.Env):
         self.action_space = spaces.Discrete(CONFIGS[level][1])
         self.observation_space = spaces.Box(0, 255, (self.game.get_screen_height(),
                                                      self.game.get_screen_width(),
-                                                     self.game.get_screen_channels()))
+                                                     self.game.get_screen_channels()),
+                                            dtype=np.uint8)
 
     def step(self, action):
         # convert action to vizdoom action space (one hot)
