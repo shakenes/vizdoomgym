@@ -3,6 +3,7 @@ from gym import spaces
 from vizdoom import *
 import numpy as np
 import os
+from gym.envs.classic_control import rendering
 
 CONFIGS = [['basic.cfg', 3],                # 0
            ['deadly_corridor.cfg', 7],      # 1
@@ -34,6 +35,7 @@ class VizdoomEnv(gym.Env):
                                                      self.game.get_screen_width(),
                                                      self.game.get_screen_channels()),
                                             dtype=np.uint8)
+        self.viewer = None
 
     def step(self, action):
         # convert action to vizdoom action space (one hot)
@@ -61,7 +63,12 @@ class VizdoomEnv(gym.Env):
         return np.transpose(img, (1, 2, 0))
 
     def render(self, mode='human'):
-        pass
+        img = self.game.get_state().screen_buffer
+        img = np.transpose(img, [1, 2, 0])
+
+        if self.viewer is None:
+            self.viewer = rendering.SimpleImageViewer()
+        self.viewer.imshow(img)
 
     @staticmethod
     def get_keys_to_action():
