@@ -52,7 +52,10 @@ class VizdoomEnv(gym.Env):
         else:
             observation = np.uint8(np.zeros(self.observation_space.shape))
 
-        info = {'dummy': 0}
+        if not done and state.game_variables is not None:
+            info = {'health': state.game_variables[0]}
+        else:
+            info = {'dummy': 0}
 
         return observation, reward, done, info
 
