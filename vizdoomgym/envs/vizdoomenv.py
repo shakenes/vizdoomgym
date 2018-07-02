@@ -36,6 +36,7 @@ class VizdoomEnv(gym.Env):
                                                      self.game.get_screen_channels()),
                                             dtype=np.uint8)
         self.viewer = None
+        self.health_memory = np.Inf
 
     def step(self, action):
         # convert action to vizdoom action space (one hot)
@@ -49,13 +50,14 @@ class VizdoomEnv(gym.Env):
         done = self.game.is_episode_finished()
         if not done:
             observation = np.transpose(state.screen_buffer, (1, 2, 0))
+            if state.game_variables[0] > self.health_memory:
+                reward += 1.0
+            self.health_memory = state.game_variables[0]
         else:
             observation = np.uint8(np.zeros(self.observation_space.shape))
+            self.health_memory = np.Inf
 
-        if not done and state.game_variables is not None:
-            info = {'health': state.game_variables[0]}
-        else:
-            info = {'dummy': 0}
+        info = {'dummy': 0}
 
         return observation, reward, done, info
 
