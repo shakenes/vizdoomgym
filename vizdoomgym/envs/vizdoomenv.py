@@ -3,7 +3,7 @@ from gym import spaces
 from vizdoom import *
 import numpy as np
 import os
-# from gym.envs.classic_control import rendering
+from gym.envs.classic_control import rendering
 
 CONFIGS = [['basic.cfg', 3],                # 0
            ['deadly_corridor.cfg', 7],      # 1
@@ -63,15 +63,15 @@ class VizdoomEnv(gym.Env):
         return np.transpose(img, (1, 2, 0))
 
     def render(self, mode='human'):
-        # try:
-        #     img = self.game.get_state().screen_buffer
-        #     img = np.transpose(img, [1, 2, 0])
-        #
-        #     if self.viewer is None:
-        #         self.viewer = rendering.SimpleImageViewer()
-        #     self.viewer.imshow(img)
-        # except AttributeError:
-        pass
+        try:
+            img = self.game.get_state().screen_buffer
+            img = np.transpose(img, [1, 2, 0])
+
+            if self.viewer is None:
+                self.viewer = rendering.SimpleImageViewer()
+            self.viewer.imshow(img)
+        except AttributeError:
+            pass
 
     @staticmethod
     def get_keys_to_action():
