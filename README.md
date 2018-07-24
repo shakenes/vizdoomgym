@@ -3,7 +3,7 @@ This is a wrapper to use [ViZDoom](https://github.com/mwydmuch/ViZDoom "ViZDoom 
 
 There is a branch with an alternative reward system for the Health Gathering scenario (each collected health pack yields +1 reward)
 
-In the docker branch rendering is excluded, because the must not be a display in docker containers.
+In the docker branch, rendering is excluded, because there must not be a display in docker containers.
 
 ## Installation
 
