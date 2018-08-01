@@ -35,6 +35,10 @@ class VizdoomEnv(gym.Env):
                                                      self.game.get_screen_width(),
                                                      self.game.get_screen_channels()),
                                             dtype=np.uint8)
+        self.health_gathering = False
+        if level == 9 or level == 4:
+            self.health_gathering = True
+
         self.viewer = None
         self.health_memory = np.Inf
 
@@ -50,7 +54,7 @@ class VizdoomEnv(gym.Env):
         done = self.game.is_episode_finished()
         if not done:
             observation = np.transpose(state.screen_buffer, (1, 2, 0))
-            if state.game_variables[0] > self.health_memory:
+            if state.game_variables[0] > self.health_memory and self.health_gathering:
                 reward += 1.0
             self.health_memory = state.game_variables[0]
         else:
