@@ -29,6 +29,7 @@ class VizdoomEnv(gym.Env):
         self.game.set_window_visible(False)
         self.game.init()
         self.state = None
+        self.game.set_depth_buffer_enabled(True)
 
         self.action_space = spaces.Discrete(CONFIGS[level][1])
         self.observation_space = spaces.Box(0, 255, (self.game.get_screen_height(),
@@ -49,9 +50,13 @@ class VizdoomEnv(gym.Env):
         done = self.game.is_episode_finished()
         if not done:
             observation = np.transpose(state.screen_buffer, (1, 2, 0))
+            depth = np.expand_dims(state.depth_buffer, axis=-1)
         else:
             observation = np.uint8(np.zeros(self.observation_space.shape))
+            depth = np.uint8(np.zeros(self.observation_space.shape[:2]))
+            depth = np.expand_dims(depth, axis=-1)
 
+        observation = np.concatenate([observation, depth], axis=-1)
         info = {'dummy': 0}
 
         return observation, reward, done, info
@@ -59,8 +64,9 @@ class VizdoomEnv(gym.Env):
     def reset(self):
         self.game.new_episode()
         self.state = self.game.get_state()
-        img = self.state.screen_buffer
-        return np.transpose(img, (1, 2, 0))
+        img = np.transpose(self.state.screen_buffer, (1, 2, 0))
+        depth = np.expand_dims(self.state.depth_buffer, axis=-1)
+        return np.concatenate([img, depth], axis=-1)
 
     def render(self, mode='human'):
         try:
