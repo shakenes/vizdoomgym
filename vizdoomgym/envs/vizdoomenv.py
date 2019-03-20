@@ -37,6 +37,11 @@ class VizdoomEnv(gym.Env):
                                             dtype=np.uint8)
         self.viewer = None
 
+        self.health_gathering = False
+        if level == 9 or level == 4:
+            self.health_gathering = True
+        self.health_memory = np.Inf
+
     def step(self, action):
         # convert action to vizdoom action space (one hot)
         act = np.zeros(self.action_space.n)
@@ -50,10 +55,14 @@ class VizdoomEnv(gym.Env):
         if not done:
             observation = np.transpose(state.screen_buffer, (1, 2, 0))
             depth = np.expand_dims(state.depth_buffer, axis=-1)
+            if state.game_variables[0] > self.health_memory and self.health_gathering:
+                reward += 1.0
+            self.health_memory = state.game_variables[0]
         else:
             observation = np.uint8(np.zeros(self.observation_space.shape))
             depth = np.uint8(np.zeros(self.observation_space.shape[:2]))
             depth = np.expand_dims(depth, axis=-1)
+            self.health_memory = np.Inf
 
         observation = np.concatenate([observation, depth], axis=-1)
         info = {'dummy': 0}
