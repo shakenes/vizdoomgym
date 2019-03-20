@@ -29,7 +29,6 @@ class VizdoomEnv(gym.Env):
         self.game.set_window_visible(False)
         self.game.init()
         self.state = None
-        self.game.set_depth_buffer_enabled(True)
 
         self.action_space = spaces.Discrete(CONFIGS[level][1])
         self.observation_space = spaces.Box(0, 255, (self.game.get_screen_height(),
