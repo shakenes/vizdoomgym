@@ -4,7 +4,7 @@ setup(
     name="vizdoomgym",
     version="0.0.2",
     description="OpenAI Gym wrapper for ViZDoom",
-    auther="Simon Hakenes",
+    author="Simon Hakenes",
     author_email="simon.hakenes@ini.rub.de",
     install_requires=["gym", "vizdoom", "numpy", "pre-commit"],
 )
