@@ -20,8 +20,7 @@ CONFIGS = [
 
 
 class VizdoomEnv(gym.Env):
-    def __init__(self, level):
-
+    def __init__(self, level, **kwargs):
         # init game
         self.game = vzd.DoomGame()
         self.game.set_screen_resolution(vzd.ScreenResolution.RES_640X480)
