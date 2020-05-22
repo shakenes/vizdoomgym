@@ -18,7 +18,7 @@ Use one of the environments (see list below for all available envs):
 ```
 import gym
 import vizdoomgym
-env = gym.make('VizdoomBasic-v0')
+env = gym.make('VizdoomBasic-v0', **kwargs)
 ```
 
 List of available environments:
