@@ -9,7 +9,7 @@ In the docker branch, rendering is excluded, because there must not be a display
 
 ```
 sudo apt-get install cmake libboost-all-dev libgtk2.0-dev libsdl2-dev python-numpy
-git clone https://github.com/simontudo/vizdoomgym.git
+git clone https://github.com/shakenes/vizdoomgym.git
 cd vizdoomgym
 pip install -e .
 ```
@@ -35,4 +35,4 @@ VizdoomDeathmatch-v0
 VizdoomHealthGatheringSupreme-v0
 ```
 
-[Detailed information about the environments](https://github.com/simontudo/vizdoomgym/blob/master/vizdoomgym/envs/scenarios/README.md)
+[Detailed information about the environments](https://github.com/shakenes/vizdoomgym/blob/master/vizdoomgym/envs/scenarios/README.md)
