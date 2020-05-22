@@ -1,6 +1,6 @@
 import gym
 from gym import spaces
-from vizdoom import *
+import vizdoom.vizdoom as vzd
 import numpy as np
 import os
 from gym.envs.classic_control import rendering
@@ -22,8 +22,8 @@ class VizdoomEnv(gym.Env):
     def __init__(self, level):
 
         # init game
-        self.game = DoomGame()
-        self.game.set_screen_resolution(ScreenResolution.RES_640X480)
+        self.game = vzd.DoomGame()
+        self.game.set_screen_resolution(vzd.ScreenResolution.RES_640X480)
         scenarios_dir = os.path.join(os.path.dirname(__file__), 'scenarios')
         self.game.load_config(os.path.join(scenarios_dir, CONFIGS[level][0]))
         self.game.set_window_visible(False)
