@@ -27,6 +27,11 @@ env.render()
 env.close()
 ```
 
+It is possible to get the depth buffer and/or the labels buffer:
+```
+env = gym.make('VizdoomBasic-v0, depth=True, labels=True)
+```
+
 List of available environments:
 ```
 VizdoomBasic-v0
