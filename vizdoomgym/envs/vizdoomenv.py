@@ -28,9 +28,17 @@ CONFIGS = [
 
 class VizdoomEnv(gym.Env):
     def __init__(self, level, **kwargs):
+        """
+        Base class for Gym interface for ViZDoom. Child classes are defined in vizdoom_env_definitions.py,
+        that contain the level parameter and pass through any kwargs from gym.make()
+        :param level: index of level in the CONFIGS list above
+        :param kwargs: keyword arguments from gym.make(env_name_string, **kwargs) call. 'depth' will render the
+        depth buffer and 'labels' will render the object labels and return it in the observation.
+        Note that the observation will be a list with the screen buffer as the first element. If no kwargs are
+        provided (or depth=False and labels=False) the observation will be of type np.ndarray.
+        """
+
         # parse keyword arguments
-        # depth: render depth buffer and add to observation
-        # objects: get object buffer and add to observation
         self.depth = kwargs.get("depth", False)
         self.labels = kwargs.get("labels", False)
 
