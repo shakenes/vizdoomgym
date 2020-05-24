@@ -1,4 +1,4 @@
-# vizdoomgym
+# ViZDoomGym
 This is a wrapper to use [ViZDoom](https://github.com/mwydmuch/ViZDoom "ViZDoom repository"), a "Doom based AI Research Platform for Reinforcement Learning from Raw Visual Information" together with [OpenAI Gym](https://github.com/openai/gym "OpenAI Gym repository").
 
 There is a branch with an alternative reward system for the Health Gathering scenario (each collected health pack yields +1 reward)
