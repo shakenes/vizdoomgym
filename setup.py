@@ -6,5 +6,10 @@ setup(
     description="OpenAI Gym wrapper for ViZDoom",
     author="Simon Hakenes",
     author_email="simon.hakenes@ini.rub.de",
-    install_requires=["gym", "vizdoom", "numpy", "pre-commit"],
+    install_requires=[
+        "gym",
+        "vizdoom@https://github.com/mwydmuch/ViZDoom/tarball/1.1.8pre",
+        "numpy",
+        "pre-commit",
+    ],
 )
