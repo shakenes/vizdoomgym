@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 import gym
 from gym import spaces
 import vizdoom.vizdoom as vzd
