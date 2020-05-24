@@ -4,6 +4,7 @@ from gym import spaces
 import vizdoom.vizdoom as vzd
 import numpy as np
 import os
+from typing import List
 
 turn_off_rendering = False
 try:
@@ -44,21 +45,44 @@ class VizdoomEnv(gym.Env):
         self.game.set_labels_buffer_enabled(self.labels)
         self.game.init()
         self.state = None
+        self.viewer = None
 
         self.action_space = spaces.Discrete(CONFIGS[level][1])
 
-        # TODO: Needs to be fixed
-        self.observation_space = spaces.Box(
-            0,
-            255,
-            (
-                self.game.get_screen_height(),
-                self.game.get_screen_width(),
-                self.game.get_screen_channels(),
-            ),
-            dtype=np.uint8,
-        )
-        self.viewer = None
+        list_spaces: List[gym.Space] = [
+            spaces.Box(
+                0,
+                255,
+                (
+                    self.game.get_screen_height(),
+                    self.game.get_screen_width(),
+                    self.game.get_screen_channels(),
+                ),
+                dtype=np.uint8,
+            )
+        ]
+        if self.depth:
+            list_spaces.append(
+                spaces.Box(
+                    0,
+                    255,
+                    (self.game.get_screen_height(), self.game.get_screen_width(),),
+                    dtype=np.uint8,
+                )
+            )
+        if self.labels:
+            list_spaces.append(
+                spaces.Box(
+                    0,
+                    255,
+                    (self.game.get_screen_height(), self.game.get_screen_width(),),
+                    dtype=np.uint8,
+                )
+            )
+        if len(list_spaces) == 1:
+            self.observation_space = list_spaces[0]
+        else:
+            self.observation_space = spaces.Tuple(list_spaces)
 
     def step(self, action):
         # convert action to vizdoom action space (one hot)
@@ -68,24 +92,44 @@ class VizdoomEnv(gym.Env):
         act = act.tolist()
 
         reward = self.game.make_action(act)
-        state = self.game.get_state()
+        self.state = self.game.get_state()
         done = self.game.is_episode_finished()
-        depth = state.depth_buffer
-        labels = state.labels_buffer
+        observation = []
         if not done:
-            observation = np.transpose(state.screen_buffer, (1, 2, 0))
+            observation.append(np.transpose(self.state.screen_buffer, (1, 2, 0)))
+            if self.depth:
+                observation.append(self.state.depth_buffer)
+            if self.labels:
+                observation.append(self.state.labels_buffer)
         else:
-            observation = np.uint8(np.zeros(self.observation_space.shape))
+            if isinstance(self.observation_space, spaces.Box):
+                observation.append(np.uint8(np.zeros(self.observation_space.shape)))
+            else:
+                observation.append(np.uint8(np.zeros(self.observation_space[0].shape)))
+            if self.depth:
+                observation.append(np.uint8(np.zeros(self.observation_space[1].shape)))
+            if self.labels:
+                observation.append(np.uint8(np.zeros(self.observation_space[2].shape)))
 
         info = {"dummy": 0}
+
+        # if there is only one observation, return obs as array to sustain compatibility
+        if len(observation) == 1:
+            observation = observation[0]
 
         return observation, reward, done, info
 
     def reset(self):
         self.game.new_episode()
         self.state = self.game.get_state()
-        img = self.state.screen_buffer
-        return np.transpose(img, (1, 2, 0))
+        observation = [np.transpose(self.state.screen_buffer, (1, 2, 0))]
+        if self.depth:
+            observation.append(self.state.depth_buffer)
+        if self.labels:
+            observation.append(self.state.labels_buffer)
+        if len(observation) == 1:
+            observation = observation[0]
+        return observation
 
     def render(self, mode="human"):
         if turn_off_rendering:
