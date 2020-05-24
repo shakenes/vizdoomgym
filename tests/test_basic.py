@@ -1,6 +1,7 @@
 import unittest
 import gym
 import vizdoomgym
+import numpy as np
 
 
 class BasicTest(unittest.TestCase):
@@ -11,9 +12,11 @@ class BasicTest(unittest.TestCase):
         self.assertIsInstance(env, gym.Env)
         state = env.reset()
         self.assertEqual(len(state.shape), 3)
+        self.assertIsInstance(state, np.ndarray)
         self.assertTrue(state.shape, env.observation_space.shape)
         state, reward, done, info = env.step(env.action_space.sample())
         self.assertEqual(len(state.shape), 3)
+        self.assertIsInstance(state, np.ndarray)
         self.assertTrue(state.shape, env.observation_space.shape)
         self.assertIsNotNone(reward)
         self.assertIsInstance(done, bool)
