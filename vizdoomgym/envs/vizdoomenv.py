@@ -50,6 +50,11 @@ class VizdoomEnv(gym.Env):
         self.game.set_window_visible(False)
         self.game.set_depth_buffer_enabled(self.depth)
         self.game.set_labels_buffer_enabled(self.labels)
+        self.game.clear_available_game_variables()
+        self.game.add_available_game_variable(vzd.GameVariable.POSITION_X)
+        self.game.add_available_game_variable(vzd.GameVariable.POSITION_Y)
+        self.game.add_available_game_variable(vzd.GameVariable.POSITION_Z)
+        self.game.add_available_game_variable(vzd.GameVariable.ANGLE)
         self.game.init()
         self.state = None
         self.viewer = None
@@ -108,7 +113,14 @@ class VizdoomEnv(gym.Env):
                 observation.append(self.state.depth_buffer)
             if self.labels:
                 observation.append(self.state.labels_buffer)
+            info = {
+                "position_x": self.state.game_variables[0],
+                "position_y": self.state.game_variables[1],
+                "position_z": self.state.game_variables[2],
+                "angle": self.state.game_variables[3],
+            }
         else:
+            # there is no state in the terminal step, so a "zero observation is returned instead"
             if isinstance(self.observation_space, spaces.Box):
                 observation.append(np.uint8(np.zeros(self.observation_space.shape)))
             else:
@@ -117,8 +129,12 @@ class VizdoomEnv(gym.Env):
                 observation.append(np.uint8(np.zeros(self.observation_space[1].shape)))
             if self.labels:
                 observation.append(np.uint8(np.zeros(self.observation_space[2].shape)))
-
-        info = {"dummy": 0}
+            info = {
+                "position_x": 0.0,
+                "position_y": 0.0,
+                "position_z": 0.0,
+                "angle": 0.0,
+            }
 
         # if there is only one observation, return obs as array to sustain compatibility
         if len(observation) == 1:
