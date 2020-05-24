@@ -19,7 +19,7 @@ class BasicTest(unittest.TestCase):
         env.close()
 
     def test_kwargs(self):
-        env = gym.make("VizdoomBasic-v0", object_labels=True)
+        env = gym.make("VizdoomDefendCenter-v0", object_labels=True)
         # self.assertTrue(env.unwrapped.object_labels)
         self.assertIsInstance(env, gym.Env)
         state = env.reset()
