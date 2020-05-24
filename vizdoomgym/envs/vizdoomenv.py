@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import gym
 from gym import spaces
 import vizdoom.vizdoom as vzd
@@ -31,7 +32,7 @@ class VizdoomEnv(gym.Env):
         # depth: render depth buffer and add to observation
         # objects: get object buffer and add to observation
         self.depth = kwargs.get("depth", False)
-        self.objects = kwargs.get("objects", False)
+        self.labels = kwargs.get("labels", False)
 
         # init game
         self.game = vzd.DoomGame()
@@ -39,6 +40,8 @@ class VizdoomEnv(gym.Env):
         scenarios_dir = os.path.join(os.path.dirname(__file__), "scenarios")
         self.game.load_config(os.path.join(scenarios_dir, CONFIGS[level][0]))
         self.game.set_window_visible(False)
+        self.game.set_depth_buffer_enabled(self.depth)
+        self.game.set_labels_buffer_enabled(self.labels)
         self.game.init()
         self.state = None
 
@@ -67,6 +70,8 @@ class VizdoomEnv(gym.Env):
         reward = self.game.make_action(act)
         state = self.game.get_state()
         done = self.game.is_episode_finished()
+        depth = state.depth_buffer
+        labels = state.labels_buffer
         if not done:
             observation = np.transpose(state.screen_buffer, (1, 2, 0))
         else:
