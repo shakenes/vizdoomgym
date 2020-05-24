@@ -27,6 +27,12 @@ CONFIGS = [
 
 class VizdoomEnv(gym.Env):
     def __init__(self, level, **kwargs):
+        # parse keyword arguments
+        # depth: render depth buffer and add to observation
+        # objects: get object buffer and add to observation
+        self.depth = kwargs.get("depth", False)
+        self.objects = kwargs.get("objects", False)
+
         # init game
         self.game = vzd.DoomGame()
         self.game.set_screen_resolution(vzd.ScreenResolution.RES_640X480)
