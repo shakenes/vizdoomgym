@@ -3,7 +3,13 @@ from gym import spaces
 import vizdoom.vizdoom as vzd
 import numpy as np
 import os
-from gym.envs.classic_control import rendering
+
+turn_off_rendering = False
+try:
+    from gym.envs.classic_control import rendering
+except Exception as e:
+    print(e)
+    turn_off_rendering = True
 
 CONFIGS = [
     ["basic.cfg", 3],  # 0
@@ -69,6 +75,8 @@ class VizdoomEnv(gym.Env):
         return np.transpose(img, (1, 2, 0))
 
     def render(self, mode="human"):
+        if turn_off_rendering:
+            return
         try:
             img = self.game.get_state().screen_buffer
             img = np.transpose(img, [1, 2, 0])
