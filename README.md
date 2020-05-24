@@ -11,7 +11,7 @@ git clone https://github.com/shakenes/vizdoomgym.git
 cd vizdoomgym
 pip install -e .
 ```
-
+## Usage
 Use one of the environments (see list below for all available envs):
 ```
 import gym
@@ -45,3 +45,9 @@ VizdoomHealthGatheringSupreme-v0
 ```
 
 [Detailed information about the environments](https://github.com/shakenes/vizdoomgym/blob/master/vizdoomgym/envs/scenarios/README.md)
+
+# Future plans
+- Support for more GameVariables such as health through kwargs
+- Provide more options for the observations (player position, health...)
+
+Ideas for new features and of course PRs are always welcome!
