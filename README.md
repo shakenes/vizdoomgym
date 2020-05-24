@@ -19,6 +19,12 @@ Use one of the environments (see list below for all available envs):
 import gym
 import vizdoomgym
 env = gym.make('VizdoomBasic-v0', **kwargs)
+
+# use like a normal Gym environment
+state = env.reset()
+state, reward, done, info = env.step(env.action_space.sample())
+env.render()
+env.close()
 ```
 
 List of available environments:
