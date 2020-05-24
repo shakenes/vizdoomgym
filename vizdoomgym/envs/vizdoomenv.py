@@ -43,6 +43,8 @@ class VizdoomEnv(gym.Env):
         self.state = None
 
         self.action_space = spaces.Discrete(CONFIGS[level][1])
+
+        # TODO: Needs to be fixed
         self.observation_space = spaces.Box(
             0,
             255,
