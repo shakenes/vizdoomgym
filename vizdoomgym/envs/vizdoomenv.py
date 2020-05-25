@@ -61,6 +61,7 @@ class VizdoomEnv(gym.Env):
 
         self.action_space = spaces.Discrete(CONFIGS[level][1])
 
+        # specify observation space(s)
         list_spaces: List[gym.Space] = [
             spaces.Box(
                 0,
