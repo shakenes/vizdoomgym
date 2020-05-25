@@ -121,7 +121,7 @@ class VizdoomEnv(gym.Env):
                 "angle": self.state.game_variables[3],
             }
         else:
-            # there is no state in the terminal step, so a "zero observation is returned instead"
+            # there is no state in the terminal step, so a "zero observation" is returned instead
             if isinstance(self.observation_space, spaces.Box):
                 observation.append(np.uint8(np.zeros(self.observation_space.shape)))
             else:
