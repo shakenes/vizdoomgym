@@ -41,6 +41,8 @@ class VizdoomEnv(gym.Env):
         # parse keyword arguments
         self.depth = kwargs.get("depth", False)
         self.labels = kwargs.get("labels", False)
+        self.position = kwargs.get("position", False)
+        self.health = kwargs.get("health", False)
 
         # init game
         self.game = vzd.DoomGame()
@@ -51,10 +53,13 @@ class VizdoomEnv(gym.Env):
         self.game.set_depth_buffer_enabled(self.depth)
         self.game.set_labels_buffer_enabled(self.labels)
         self.game.clear_available_game_variables()
-        self.game.add_available_game_variable(vzd.GameVariable.POSITION_X)
-        self.game.add_available_game_variable(vzd.GameVariable.POSITION_Y)
-        self.game.add_available_game_variable(vzd.GameVariable.POSITION_Z)
-        self.game.add_available_game_variable(vzd.GameVariable.ANGLE)
+        if self.position:
+            self.game.add_available_game_variable(vzd.GameVariable.POSITION_X)
+            self.game.add_available_game_variable(vzd.GameVariable.POSITION_Y)
+            self.game.add_available_game_variable(vzd.GameVariable.POSITION_Z)
+            self.game.add_available_game_variable(vzd.GameVariable.ANGLE)
+        if self.health:
+            self.game.add_available_game_variable(vzd.GameVariable.HEALTH)
         self.game.init()
         self.state = None
         self.viewer = None
@@ -92,6 +97,10 @@ class VizdoomEnv(gym.Env):
                     dtype=np.uint8,
                 )
             )
+        if self.position:
+            list_spaces.append(spaces.Box(-np.Inf, np.Inf, (4, 1)))
+        if self.health:
+            list_spaces.append(spaces.Box(0, np.Inf, (1, 1)))
         if len(list_spaces) == 1:
             self.observation_space = list_spaces[0]
         else:
@@ -104,53 +113,41 @@ class VizdoomEnv(gym.Env):
         act = np.uint8(act)
         act = act.tolist()
 
-        reward = self.game.make_action(act)
         self.state = self.game.get_state()
+        reward = self.game.make_action(act)
         done = self.game.is_episode_finished()
+        info = {"dummy": 0.0}
+
+        return self.__collect_observations(), reward, done, info
+
+    def reset(self):
+        self.game.new_episode()
+        self.state = self.game.get_state()
+
+        return self.__collect_observations()
+
+    def __collect_observations(self):
         observation = []
-        if not done:
+        if self.state is not None:
             observation.append(np.transpose(self.state.screen_buffer, (1, 2, 0)))
             if self.depth:
                 observation.append(self.state.depth_buffer)
             if self.labels:
                 observation.append(self.state.labels_buffer)
-            info = {
-                "position_x": self.state.game_variables[0],
-                "position_y": self.state.game_variables[1],
-                "position_z": self.state.game_variables[2],
-                "angle": self.state.game_variables[3],
-            }
+            if self.position:
+                observation.append(
+                    np.array([self.state.game_variables[i] for i in range(4)])
+                )
+                if self.health:
+                    observation.append(self.state.game_variables[4])
+            elif self.health:
+                observation.append(self.state.game_variables[0])
         else:
-            # there is no state in the terminal step, so a "zero observation" is returned instead
-            if isinstance(self.observation_space, spaces.Box):
-                observation.append(np.uint8(np.zeros(self.observation_space.shape)))
-            else:
-                observation.append(np.uint8(np.zeros(self.observation_space[0].shape)))
-            if self.depth:
-                observation.append(np.uint8(np.zeros(self.observation_space[1].shape)))
-            if self.labels:
-                observation.append(np.uint8(np.zeros(self.observation_space[2].shape)))
-            info = {
-                "position_x": 0.0,
-                "position_y": 0.0,
-                "position_z": 0.0,
-                "angle": 0.0,
-            }
+            # there is no state in the terminal step, so a "zero observation is returned instead"
+            for space in self.observation_space:
+                observation.append(np.zeros(space.shape, dtype=space.dtype))
 
         # if there is only one observation, return obs as array to sustain compatibility
-        if len(observation) == 1:
-            observation = observation[0]
-
-        return observation, reward, done, info
-
-    def reset(self):
-        self.game.new_episode()
-        self.state = self.game.get_state()
-        observation = [np.transpose(self.state.screen_buffer, (1, 2, 0))]
-        if self.depth:
-            observation.append(self.state.depth_buffer)
-        if self.labels:
-            observation.append(self.state.labels_buffer)
         if len(observation) == 1:
             observation = observation[0]
         return observation
