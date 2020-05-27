@@ -25,7 +25,7 @@ env.render()
 env.close()
 ```
 
-### Possible observations (partially under development in `add_observations` branch)
+### Possible observations
 It is possible to get the depth buffer, the labels buffer, the player's position and viewing angle and the player's health as additional observations. If more than one observation is provided, the observations are returned as a list of numpy array (or floats, respectively). 
 ```
 env = gym.make('VizdoomBasic-v0, depth=True, labels=True, position=True, health=True)
