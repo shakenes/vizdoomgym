@@ -164,6 +164,10 @@ class VizdoomEnv(gym.Env):
             self.viewer.imshow(img)
         except AttributeError:
             pass
+        
+    def close(self):
+        if self.viewer:
+            self.viewer.close()
 
     @staticmethod
     def get_keys_to_action():
