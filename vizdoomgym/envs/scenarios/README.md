@@ -46,8 +46,8 @@ __REWARDS:__
 -dX for getting further from the vest.
 
 Further configuration:
-* 5 available buttons: turn left, turn right, move left, move right, shoot (attack)
-* timeout = 4200
+* 7 available buttons: turn left, turn right, move forward, move backward, move left, move right, shoot (attack)
+* timeout = 2100
 * death penalty = 100
 * doom_skill = 5
 
