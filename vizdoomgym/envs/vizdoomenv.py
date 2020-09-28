@@ -113,8 +113,8 @@ class VizdoomEnv(gym.Env):
         act = np.uint8(act)
         act = act.tolist()
 
-        self.state = self.game.get_state()
         reward = self.game.make_action(act)
+        self.state = self.game.get_state()
         done = self.game.is_episode_finished()
         info = {"dummy": 0.0}
 
