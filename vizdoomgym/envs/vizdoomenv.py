@@ -144,7 +144,13 @@ class VizdoomEnv(gym.Env):
                 observation.append(self.state.game_variables[0])
         else:
             # there is no state in the terminal step, so a "zero observation is returned instead"
-            for space in self.observation_space:
+            if isinstance(self.observation_space, gym.spaces.box.Box):
+                # Box isn't iterable
+                obs_space = [self.observation_space]
+            else:
+                obs_space = self.observation_space
+
+            for space in obs_space:
                 observation.append(np.zeros(space.shape, dtype=space.dtype))
 
         # if there is only one observation, return obs as array to sustain compatibility
