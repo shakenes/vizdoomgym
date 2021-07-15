@@ -51,5 +51,6 @@ VizdoomHealthGatheringSupreme-v0
 ## Future plans
 - Support for more GameVariables such as health through kwargs
 - Provide more options for the observations (player position, health...)
+- Use a dictionary for all the observations
 
 Ideas for new features and of course PRs are always welcome!
